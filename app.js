@@ -13,16 +13,39 @@ document.getElementById("pickImage").onclick=()=>{
 imgInput.click()
 }
 
-pdfInput.onchange=e=>{
-pdfFile=e.target.files[0]
-alert("PDF selected")
+pdfInput.onchange = e => {
+
+const file = e.target.files[0]
+
+if (!file) return
+
+if (file.type !== "application/pdf") {
+    alert("Please select a valid PDF file")
+    pdfInput.value = ""
+    return
 }
 
-imgInput.onchange=e=>{
-imageFile=e.target.files[0]
-alert("Image selected")
+pdfFile = file
+alert("PDF selected successfully")
+
 }
 
+imgInput.onchange = e => {
+
+const file = e.target.files[0]
+
+if (!file) return
+
+if (!file.type.startsWith("image/")) {
+    alert("Please select a PNG or JPG image")
+    imgInput.value = ""
+    return
+}
+
+imageFile = file
+alert("Image selected successfully")
+
+}
 document.getElementById("generatePdf").onclick=async()=>{
 
 if(!pdfFile || !imageFile){
