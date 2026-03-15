@@ -1,6 +1,7 @@
 {
 "name":"PDF Replacer",
 "short_name":"PDFTool",
+"description":"Replace the last page of a PDF with an image and share the final PDF easily.",
 "start_url":"index.html",
 "display":"standalone",
 "background_color":"#ffffff",
