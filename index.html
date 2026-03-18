@@ -1,53 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Client Doc Share</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF Tool</title>
 
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0d6efd">
+  <!-- Manifest -->
+  <link rel="manifest" href="manifest.json" />
 
-  <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Theme -->
+  <meta name="theme-color" content="#0d6efd" />
+
+  <!-- Bootstrap (optional but clean UI) -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
 </head>
 
 <body class="bg-light">
 
-<div class="container text-center mt-5">
+  <div class="container py-4">
+    <h3 class="text-center mb-4">PDF Final Copy Tool</h3>
 
-  <h3 class="mb-4">Client Doc Share</h3>
+    <div class="card p-3 shadow-sm">
 
-  <!-- Inputs -->
-  <input type="file" id="pdfInput" accept="application/pdf" class="form-control mb-3">
+      <!-- PDF Input -->
+      <div class="mb-3">
+        <label class="form-label">Select PDF</label>
+        <input
+          type="file"
+          id="pdfInput"
+          accept="application/pdf"
+          class="form-control"
+        />
+      </div>
 
-  <input type="file" id="imageInput" accept="image/*" multiple class="form-control mb-4" disabled>
+      <!-- Image Input -->
+      <div class="mb-3">
+        <label class="form-label">Select Image</label>
+        <input
+          type="file"
+          id="imgInput"
+          accept="image/*"
+          class="form-control"
+        />
+      </div>
 
-  <!-- Buttons -->
-  <button id="btn1" class="btn btn-primary w-100 mb-2">1. Select PDF</button>
+      <!-- Buttons -->
+      <div class="d-flex gap-2">
+        <button id="generatePdf" class="btn btn-primary w-50" disabled>
+          Final Copy
+        </button>
 
-  <button id="btn2" class="btn btn-primary w-100 mb-2" disabled>
-    2. Enable Image Selection
-  </button>
+        <button id="sharePdf" class="btn btn-success w-50" disabled>
+          Share
+        </button>
+      </div>
 
-  <button id="btn3" class="btn btn-primary w-100 mb-2" disabled>
-    3. Create PDF
-  </button>
+    </div>
+  </div>
 
-  <button id="btn4" class="btn btn-primary w-100 mb-2" disabled>
-    4. Share PDF
-  </button>
+  <!-- PDF-LIB -->
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 
-</div>
+  <!-- App JS -->
+  <script src="app.js"></script>
 
-<script src="app.js"></script>
-
-<script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js');
-}
-</script>
+  <!-- Service Worker -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js");
+    }
+  </script>
 
 </body>
 </html>
