@@ -2,28 +2,28 @@
 let pdfFile = null;
 let imageFile = null;
 let generatedPdfBlob = null;
+let finalFileName = "final_share.pdf";
 
 // Inputs
 const pdfInput = document.getElementById("pdfInput");
 const imgInput = document.getElementById("imgInput");
 
 // Buttons
-const pickPdfBtn = document.getElementById("pickPdf");
-const pickImageBtn = document.getElementById("pickImage");
-const generateBtn = document.getElementById("generatePdf");
+const generateBtn = document.getElementById("generatePdf"); // Final Copy
 const shareBtn = document.getElementById("sharePdf");
 
 // Initial state
-pickImageBtn.disabled = true;
 generateBtn.disabled = true;
 shareBtn.disabled = true;
-imgInput.disabled = true;
 
-// Step 1 → Pick PDF
-pickPdfBtn.onclick = () => {
-    pdfInput.click();
-};
+// Check if both files selected
+function checkEnableGenerate() {
+    if (pdfFile && imageFile) {
+        generateBtn.disabled = false;
+    }
+}
 
+// Step 1 → Select PDF
 pdfInput.onchange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -35,16 +35,14 @@ pdfInput.onchange = (e) => {
 
     pdfFile = file;
 
-    // Enable next step
-    pickImageBtn.disabled = false;
-    imgInput.disabled = false;
+    // Prepare filename
+    const name = pdfFile.name.replace(".pdf", "");
+    finalFileName = name + "_share.pdf";
+
+    checkEnableGenerate();
 };
 
-// Step 2 → Pick Image
-pickImageBtn.onclick = () => {
-    imgInput.click();
-};
-
+// Step 2 → Select Image
 imgInput.onchange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -56,11 +54,10 @@ imgInput.onchange = (e) => {
 
     imageFile = file;
 
-    // Enable next step
-    generateBtn.disabled = false;
+    checkEnableGenerate();
 };
 
-// Step 3 → Generate PDF
+// Step 3 → Final Copy (Generate PDF)
 generateBtn.onclick = async () => {
 
     if (!pdfFile || !imageFile) return;
@@ -99,30 +96,30 @@ generateBtn.onclick = async () => {
         type: "application/pdf"
     });
 
-    // Enable share button
+    // Enable Share
     shareBtn.disabled = false;
 };
 
-// Step 4 → Share PDF
+// Step 4 → Share
 shareBtn.onclick = async () => {
 
     if (!generatedPdfBlob) return;
 
-    const file = new File([generatedPdfBlob], "final.pdf", {
+    const file = new File([generatedPdfBlob], finalFileName, {
         type: "application/pdf"
     });
 
     if (navigator.canShare && navigator.canShare({ files: [file] })) {
         await navigator.share({
             files: [file],
-            title: "Final PDF"
+            title: finalFileName
         });
     } else {
-        // Fallback: download
+        // fallback download
         const url = URL.createObjectURL(generatedPdfBlob);
         const a = document.createElement("a");
         a.href = url;
-        a.download = "final.pdf";
+        a.download = finalFileName;
         a.click();
     }
 };
